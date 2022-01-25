@@ -1,0 +1,52 @@
+class item(object): 
+    def __init__(cart, unq_id, name, price, qty):
+        cart.unq_id = unq_id
+        cart.product_name = name
+        cart.price = price
+        cart.qty = qty
+        
+class shopping_cart(object):
+    if __name__ == '__main__':
+        item1 = Item(1, "Orange", 1., 1)
+        item2 = Item(2, "Eggs", 1., 2)
+        item3 = Item(3, "Cereal", 1., 5)
+    
+    my_cart = Cart()
+    my_cart.update(item1)
+    my_cart.update(item2)
+    my_cart.update(item3)
+    
+    def __init__(cart):
+        cart.content = dict()
+
+    def user_cart(answer):
+        print(answer)
+        while input[0] != 'No':
+            shopping_cart = (f'Continue shopping? "Yes/No"')
+        if input[0] == 'additem' and input[1] in prices:
+            cart.append(input[1])
+        
+    def update(cart, item):
+        if item.unq_id not in cart.content:
+            cart.content.update({item.unq_id: item})
+            print(cart.content)
+        for k, v in cart.content.get(item.unq_id).iteritems():
+            if k == 'unq_id':
+                continue
+            elif k == 'qty':
+                total_qty = v.qty + item.qty
+                if total_qty:
+                    v.qty = total_qty
+                    continue
+                cart.remove_item(k)
+            else:
+                v[k] = item[k]
+
+    def get_total(cart):
+        print(sum([v.price * v.qty for _, v in cart.content.iteritems()]))
+
+    def get_num_items(cart):
+        print(sum([v.qty for _, v in cart.content.iteritems()]))
+
+    def remove_item(cart, key):
+        cart.content.pop(key)
