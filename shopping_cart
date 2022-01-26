@@ -1,52 +1,56 @@
-class item(object): 
-    def __init__(cart, unq_id, name, price, qty):
-        cart.unq_id = unq_id
-        cart.product_name = name
-        cart.price = price
-        cart.qty = qty
-        
-class shopping_cart(object):
-    if __name__ == '__main__':
-        item1 = Item(1, "Orange", 1., 1)
-        item2 = Item(2, "Eggs", 1., 2)
-        item3 = Item(3, "Cereal", 1., 5)
+from IPython.display import clear_output
     
-    my_cart = Cart()
-    my_cart.update(item1)
-    my_cart.update(item2)
-    my_cart.update(item3)
+    # Prints the cart for the show option and when the user is finished
+def show_cart(cart):
+    clear_output()
+    total = 0
+    print('Cart:')
+    print('='*50)
+
+    # If the cart is not empty, make a receipt with the items in the cart
+    # Else print an empty receipt
+    if cart != {}:
+        for item, item_list in cart.items():
+            # Calculates the cart total and prints the itemized receipt
+            total += item_list[0] * item_list[1]
+            formatted_price = '{:.2f}'.format(item_list[1])
+            print(f'    {item.title()}: ${formatted_price} X {item_list[0]}')
+
+    formatted_total = '{:.2f}'.format(total)
+    print('='*50)
+    print(f'Total: ${formatted_total}')
     
-    def __init__(cart):
-        cart.content = dict()
+def shopping():
+    cart = {}
 
-    def user_cart(answer):
-        print(answer)
-        while input[0] != 'No':
-            shopping_cart = (f'Continue shopping? "Yes/No"')
-        if input[0] == 'additem' and input[1] in prices:
-            cart.append(input[1])
+    while True:# Loops until the user inputs 'quit'
+        choice = input("Would you like to add/remove/show/clear or quit?: ")
+
+        if choice == 'quit':
+            break
+        elif choice == 'add':
+            item = input('What would you like to add?: ')       
+        if cart.get(item, 'DNE') == 'DNE':# if item doesn't exist in the cart 
+                price = float(input(f'How much does {item} cost?: '))
+                quantity = int(input(f'How many {item} would you like to add?: '))
+                cart[item] = [quantity, price]
         
-    def update(cart, item):
-        if item.unq_id not in cart.content:
-            cart.content.update({item.unq_id: item})
-            print(cart.content)
-        for k, v in cart.content.get(item.unq_id).iteritems():
-            if k == 'unq_id':
-                continue
-            elif k == 'qty':
-                total_qty = v.qty + item.qty
-                if total_qty:
-                    v.qty = total_qty
-                    continue
-                cart.remove_item(k)
-            else:
-                v[k] = item[k]
+        elif choice == 'remove': #If it does exist in the cart
+            item = input('What would item would you like to remove?: ')
+        else:
+            cart[item][0] += 1
+        if cart.get(item, 'DNE') == 'DNE': # If the item does not exist, prompt the user, else delete the item
+            print(f'{item.title()} is not in the cart. Please try again.')
+        else:
+            del cart[item]
+        
+        elif choice == 'show': # Show items currently in the cart
+            show_cart(cart)
+        
+        elif choice == 'clear':# Clears all items from the cart
+            cart.clear()
+                    show_cart(cart)       
+        else:  # If the user did not enter a valid action
+                print('Not a valid action.')
 
-    def get_total(cart):
-        print(sum([v.price * v.qty for _, v in cart.content.iteritems()]))
-
-    def get_num_items(cart):
-        print(sum([v.qty for _, v in cart.content.iteritems()]))
-
-    def remove_item(cart, key):
-        cart.content.pop(key)
+shopping()
